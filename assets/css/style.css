@@ -1,5 +1,11 @@
+/* Box Model Hack */
+*{
+  box-sizing: border-box;
+}
 
-
+body {
+  background-color: rgb(44, 44, 44);
+}
 
 h2 {
   color: #fff;
@@ -17,11 +23,41 @@ main {
   justify-content: space-between;
 }
 
-.thumb{
+.tile{
  height: calc(28.57143vh - 1.33333em);
  min-height: 18em;
  flex:1 1 50%;
 }
+
+.tile::after{
+  background-image: linear-gradient(to top, rgba(255, 0, 0, 0.5) 5%, rgba(255, 255, 255, 0) 35%);
+  pointer-events: none;
+  background-size: cover;
+  content:'';
+  display: block;
+  height: 100%;
+  left:0;
+  top: 0;
+  position: absolute;
+  width: 100%;
+}
+
 img {
   width: 100%;
+}
+h2, p{display: none;}
+article{
+  position: relative;
+
+}
+a {
+  cursor: pointer;
+  position: absolute;
+    top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
