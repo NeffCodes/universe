@@ -2,20 +2,7 @@ fetch('/.netlify/functions/getPhotos')
 	.then(res => res.json()) // parse response as JSON
 	.then(data => {
 		data = data.reverse()
-		console.log(data)
-		console.log(data.url)
-
-		// document.querySelector('img').src = data.url
-		// document.querySelector('h2').innerText = data.title;
-		// document.querySelector('p').innerText = data.explanation
-		let gallery = document.querySelector('.gallery');
-
 		data.forEach( img => createImageCard(img))
-		// let imgs = main.querySelectorAll('a')
-		// imgs.forEach( (a,i) => {
-		// 	console.log('aasdf',a,i)
-		// 	createCard(a,data[i].url)
-		// } )
 	})
 	.catch(err => {
           console.log(`error ${err}`)
