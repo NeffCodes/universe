@@ -52,6 +52,13 @@ a {
   text-decoration: none;
   color: inherit;
 }
+
+p {
+  margin-top: 1rem;
+  line-height: 1.4;
+  letter-spacing: 0.015rem;
+}
+
 @media screen and (min-width: 760px) {
  html{
    font-size: 1.25rem;
@@ -80,7 +87,7 @@ header h1 {
 }
 
 
-header nav li a {
+header nav li span {
   padding: 1.45rem;
   display: flex;
   flex-direction: row-reverse;
@@ -88,6 +95,9 @@ header nav li a {
   align-items: center;
   letter-spacing: 0.1rem;
   font-size: 0.9rem;
+  cursor: pointer;
+  transition: 0.3s ease-in-out;
+  height: 4rem;
 }
 
 .icon {
@@ -108,6 +118,10 @@ header nav li a {
   text-transform: none !important;
   font-family: "Font Awesome 5 Free"; 
   font-weight: 900; 
+}
+
+#info.show {
+  background-color: hsl(0, 0%, 15%);
 }
 
 @media screen and (min-width: 760px) {
@@ -258,11 +272,7 @@ header nav li a {
   overflow: auto;
 }
 
-.modal p {
-  margin-top: 1rem;
-  line-height: 1.4;
-  letter-spacing: 0.015rem;
-}
+
 
 .close {
   position: absolute;
@@ -285,9 +295,27 @@ header nav li a {
 ===== Footer =====
 ******************/
 footer {
-  background: var(--grey7);
+  background: hsl(0, 0%, 15%);
+  position: fixed;
+  bottom: -12rem;
+  left: 0;
+  width: 100%;
+  z-index: 15;
+  transition: 0.4s ease-in-out;
+  padding: 1.5rem 1.5rem 2rem;
 }
 
+footer section {
+  margin-bottom: 1rem;
+}
+
+footer > p {
+  font-size: 0.7rem;
+  color: var(--grey4)
+}
+footer.show{
+  bottom: 4rem;
+}
 /******************
 ===== Misfits =====
 ******************/

@@ -111,3 +111,12 @@ function imgModal( imgSrc, divData) {
 	//add elements to modal
 	modal.append(img,divData,closeBtn)
 }
+
+document.querySelector('#info').addEventListener('click', toggleFooterInfo)
+
+function toggleFooterInfo() {
+	const footer = document.querySelector('footer');
+	footer.classList.toggle('show');
+	const about = document.querySelector('#info')
+	about.classList.toggle('show');
+}
