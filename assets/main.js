@@ -11,6 +11,7 @@ fetch('/.netlify/functions/getPhotos')
 			card = new VideoCard(gallery, cardData ) :
 			card = new GalleryCard(gallery, cardData ) ;
 
+
 			gallery.appendChild(card.container())
 		})
 	})
