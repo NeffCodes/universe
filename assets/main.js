@@ -3,113 +3,160 @@ fetch('/.netlify/functions/getPhotos')
 	.then(data => {
 		data = data.reverse()
 		console.log(data)
-		data.forEach( (img,idx) => {
+		data.forEach( (img) => {
+			const gallery = document.querySelector('.gallery');
+			let card 
 			img.media_type === 'video' ?
-			createVideoCard(img) :
-			createImageCard(img,idx)
+			card = new VideoCard(gallery, img.url, img.date, img.title, img.explanation) :
+			card = new GalleryCard(gallery, img.url, img.date, img.title, img.explanation ) ;
+
+
+			gallery.appendChild(card.container())
 		})
 	})
 	.catch(err => {
           console.log(`error ${err}`)
   })
 
-	function createVideoCard( vidData ){
-		console.log('video', vidData.date)
-		const gallery = document.querySelector('.gallery');
-		//create each node
-		const article = document.createElement('article');
-		const div = document.createElement('div')
-		const date = document.createElement('h3');
-		const title = document.createElement('h2');
 
-		article.innerHTML = `<iframe 
-			width="560" 
-			height="315" 
-			src="${vidData.url}" 
-			title="YouTube video player" 
-			frameborder="0" 
-			allow="encrypted-media; gyroscope; picture-in-picture" 
-			allowfullscreen
-			loading="lazy"
-		></iframe>`
-
-		//add data to nodes
-		title.innerText = vidData.title;
-		date.innerText = vidData.date;
-
-		//style nodes
-		article.classList.add('tile')
-
-		//build out video tree
-		div.append(date, title);
-
-		article.appendChild(div);
-		gallery.appendChild(article);
+class GalleryCard {
+	constructor(parentElement, url, date, title, description){
+		this.parentElement = parentElement;
+		this.url = url;
+		this.date = date;
+		this.title = title;
+		this.description = description;
 	}
 
+	container() {
+		const container = document.createElement('article');
+		container.classList.add('tile');
+		container.onclick = this.onClick.bind(this);
 
+		const thumbnail = document.createElement('img');
+		thumbnail.src = this.url;
 
-	function createImageCard( imgData, index ){
-		const gallery = document.querySelector('.gallery');
-		//create each node
-		const article = document.createElement('article');
-		// const anchor = document.createElement('a');
-		const img = document.createElement('img');
-		
-		const div = document.createElement('div')
-		const date = document.createElement('h3');
-		const desc = document.createElement('p');
-		const title = document.createElement('h2');
+		const titleEl = document.createElement('h2');
+		titleEl.innerText = this.title;
 
-		
-		//add data to nodes
-		article.setAttribute('data-tile',index)
-		title.innerText = imgData.title;
-		img.src = imgData.url;
-		date.innerText = imgData.date;
-		desc.innerText = imgData.explanation
-		
-		//add event listener
-		article.addEventListener('click', enlargePhoto)
+		const dateEl = document.createElement('h3');
+		dateEl.innerText = this.date;
 
-		//style nodes
-		article.classList.add('tile')
+		const titleContainer = document.createElement('div')
+		titleContainer.append(dateEl, titleEl)
 
-		//build out card tree
-		div.append(date,title, desc);
-		article.append(img, div);
-		gallery.appendChild(article);
+		container.append(thumbnail, titleContainer)
+
+		return container
 	}
 
-function enlargePhoto(e) {
-	imgSrc = e.target.src
-	divData = e.target.nextSibling.cloneNode(true);
-	imgModal(imgSrc, divData);
+	onClick() {
+		console.log('click')
+		
+		this.parentElement.append(this.createModal())
+	}
+
+	createModal() {
+		const modal = document.createElement('div');
+		modal.classList.add('modal');
+
+		const closeBtn = document.createElement('span');
+		closeBtn.classList.add('close');
+		closeBtn.innerHTML = '&times;'
+		closeBtn.onclick = () => {
+			modal.remove();
+		}
+
+		const image = document.createElement('img');
+		image.src = this.url;
+		
+		const titleEl = document.createElement('h2');
+		titleEl.innerText = this.title;
+
+		const dateEl = document.createElement('h3');
+		dateEl.innerText = this.date;
+
+		const descriptionEl = document.createElement('p');
+		descriptionEl.innerText = this.description;
+
+		const textContainer = document.createElement('div')
+		textContainer.append(dateEl, titleEl, descriptionEl)
+
+		modal.append(image, closeBtn, textContainer)
+		return modal;
+	}
+
 }
 
-function imgModal( imgSrc, divData) {
-	//create modal
-	const modal = document.createElement("div");
-	modal.classList.add('modal');
 
-	//add modal to main
-	const main =  document.querySelector('main')
-	main.append(modal)
-
-	//create image
-	const img = document.createElement('img');
-	img.src = imgSrc;
-
-	//allow to close modal
-	const closeBtn = document.createElement('span');
-	closeBtn.classList.add('close');
-	closeBtn.innerHTML = '&times;'
-	closeBtn.onclick = () => {
-		modal.remove();
+class VideoCard extends GalleryCard {
+	constructor (parentElement, url, date, title, description){
+		super(parentElement, url, date, title, description)
 	}
 
-	//add elements to modal
-	modal.append(img,divData,closeBtn)
+	container() {
+		const container = document.createElement('article');
+		container.classList.add('tile');
+		container.onclick = this.onClick.bind(this);
+
+		const thumbnail = document.createElement('img');
+		const youtubeID = this.url.match(/youtube\.com.*(\?v=|\/embed\/)(.{11})/).pop()
+		thumbnail.src = `https://img.youtube.com/vi/${youtubeID}/hqdefault.jpg`
+		
+
+		const titleEl = document.createElement('h2');
+		titleEl.innerText = this.title;
+
+		const dateEl = document.createElement('h3');
+		dateEl.innerText = this.date;
+
+		const titleContainer = document.createElement('div')
+		titleContainer.append(dateEl, titleEl)
+
+		container.append(thumbnail, titleContainer)
+
+		return container
+	}
+
+	createModal() {
+		const modal = document.createElement('div');
+		modal.classList.add('modal');
+
+		const closeBtn = document.createElement('span');
+		closeBtn.classList.add('close');
+		closeBtn.innerHTML = '&times;'
+		closeBtn.onclick = () => {
+			modal.remove();
+		}
+
+		const iframeContainer = document.createElement('div');
+		iframeContainer.innerHTML = `
+		<iframe 
+			width="560" 
+			height="315" 
+			src="${this.url}" 
+			title="YouTube video player" 
+			frameborder="0" 
+			allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+			allowfullscreen
+		>
+		</iframe>`
+		
+		const titleEl = document.createElement('h2');
+		titleEl.innerText = this.title;
+
+		const dateEl = document.createElement('h3');
+		dateEl.innerText = this.date;
+
+		const descriptionEl = document.createElement('p');
+		descriptionEl.innerText = this.description;
+
+		const textContainer = document.createElement('div')
+		textContainer.append(dateEl, titleEl, descriptionEl)
+
+		modal.append(iframeContainer, closeBtn, textContainer)
+		return modal;
+	}
 }
 
 document.querySelector('#info').addEventListener('click', toggleFooterInfo)
