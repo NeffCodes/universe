@@ -1,11 +1,11 @@
-displayLoader();
+displayLoader('Peering into the telescope....')
 
 fetch('/.netlify/functions/getPhotos')
 	.then(res => res.json()) // parse response as JSON
 	.then(data => {
 		hideLoader();
 		data = data.reverse()
-		console.log(data)
+		// console.log(data)
 		data.forEach( (cardData) => {
 			const gallery = document.querySelector('.gallery');
 			let card;
@@ -61,7 +61,7 @@ class GalleryCard {
 	}
 
 	onClick() {
-		console.log('click')
+		// console.log('click')
 		this.parentElement.append(this.createModal())
 	}
 
@@ -185,11 +185,24 @@ function toggleFooterInfo() {
 	about.classList.toggle('show');
 }
 
-function displayLoader() {
-	const loader = document.querySelector('.temp');
-	loader.classList.remove("hide")
+
+/////////////LOADER
+function displayLoader(loadingText) {
 	const gallery = document.querySelector('.gallery')
 	gallery.classList.add('hide')
+
+	const container = document.createElement('div');
+	const span = document.createElement('span');
+	const text = document.createElement('p');
+
+	container.classList.add('temp');
+	container.classList.remove('hide');
+
+	span.id ='loading';
+	text.innerText = loadingText;
+
+	container.append(span,text)
+	document.querySelector('main').append(container)
 }
 
 function hideLoader() {
