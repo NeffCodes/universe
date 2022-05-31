@@ -386,3 +386,40 @@ footer > p {
 footer.show{
   bottom: 4rem;
 }
+
+/******************
+===== Loading =====
+******************/
+.temp {
+  width: 100%;
+  height: calc(100vh - 12rem);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+#loading {
+  width: 2rem;
+  height: 2rem;
+  border: 5px solid var(--grey4);
+  border-top: 5px solid var(--orange);
+  border-radius: 100%;
+  margin: 0 auto;
+  visibility: visible;
+  display: block;
+  animation: spin 1s infinite linear;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.hide {
+  visibility: hidden !important;
+  display: none !important;
+}

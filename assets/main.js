@@ -1,6 +1,9 @@
+displayLoader();
+
 fetch('/.netlify/functions/getPhotos')
 	.then(res => res.json()) // parse response as JSON
 	.then(data => {
+		hideLoader();
 		data = data.reverse()
 		console.log(data)
 		data.forEach( (cardData) => {
@@ -180,4 +183,18 @@ function toggleFooterInfo() {
 	footer.classList.toggle('show');
 	const about = document.querySelector('#info')
 	about.classList.toggle('show');
+}
+
+function displayLoader() {
+	const loader = document.querySelector('.temp');
+	loader.classList.remove("hide")
+	const gallery = document.querySelector('.gallery')
+	gallery.classList.add('hide')
+}
+
+function hideLoader() {
+	const loader = document.querySelector('.temp');
+	loader.classList.add("hide")
+	const gallery = document.querySelector('.gallery')
+	gallery.classList.remove('hide')
 }
