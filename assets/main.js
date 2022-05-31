@@ -128,6 +128,7 @@ class VideoCard extends GalleryCard {
 	}
 
 	createModal() {
+		document.querySelector('body').classList.add('noscroll')
 		const modal = document.createElement('div');
 		modal.classList.add('modal');
 
@@ -139,6 +140,8 @@ class VideoCard extends GalleryCard {
 		}
 
 		const iframeContainer = document.createElement('div');
+		iframeContainer.classList.add('video-container');
+
 		iframeContainer.innerHTML = `
 		<iframe 
 			width="560" 
@@ -152,18 +155,20 @@ class VideoCard extends GalleryCard {
 		</iframe>`
 		
 		const titleEl = document.createElement('h2');
-		titleEl.innerText = this.title;
-
+			titleEl.innerText = this.title;
 		const dateEl = document.createElement('h3');
-		dateEl.innerText = this.date;
+			dateEl.innerText = this.date;
+		const titleContainer = document.createElement('div');
+			titleContainer.append(dateEl,titleEl);
+			titleContainer.classList.add('title');
 
 		const descriptionEl = document.createElement('p');
-		descriptionEl.innerText = this.description;
+			descriptionEl.innerText = this.description;
+		const textContainer = document.createElement('div');
+			textContainer.append(descriptionEl);
+			textContainer.classList.add('description');
 
-		const textContainer = document.createElement('div')
-		textContainer.append(dateEl, titleEl, descriptionEl)
-
-		modal.append(iframeContainer, closeBtn, textContainer)
+		modal.append(iframeContainer, closeBtn, titleContainer,textContainer)
 		return modal;
 	}
 }
