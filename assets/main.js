@@ -51,13 +51,19 @@ class GalleryCard {
 		return container
 	}
 
+	removeModal(){
+		document.querySelector('body').classList.remove('noscroll')
+		const modals = document.querySelectorAll('.modal')
+		modals.forEach(modal => modal.remove());
+	}
+
 	onClick() {
 		console.log('click')
-		
 		this.parentElement.append(this.createModal())
 	}
 
 	createModal() {
+		document.querySelector('body').classList.add('noscroll')
 		const modal = document.createElement('div');
 		modal.classList.add('modal');
 
@@ -65,25 +71,27 @@ class GalleryCard {
 		closeBtn.classList.add('close');
 		closeBtn.innerHTML = '&times;'
 		closeBtn.onclick = () => {
-			modal.remove();
+			this.removeModal();
 		}
 
 		const image = document.createElement('img');
 		image.src = this.url;
 		
 		const titleEl = document.createElement('h2');
-		titleEl.innerText = this.title;
-
+			titleEl.innerText = this.title;
 		const dateEl = document.createElement('h3');
-		dateEl.innerText = this.date;
+			dateEl.innerText = this.date;
+		const titleContainer = document.createElement('div');
+			titleContainer.append(dateEl,titleEl);
+			titleContainer.classList.add('title');
 
 		const descriptionEl = document.createElement('p');
-		descriptionEl.innerText = this.description;
+			descriptionEl.innerText = this.description;
+		const textContainer = document.createElement('div');
+			textContainer.append(descriptionEl);
+			textContainer.classList.add('description');
 
-		const textContainer = document.createElement('div')
-		textContainer.append(dateEl, titleEl, descriptionEl)
-
-		modal.append(image, closeBtn, textContainer)
+		modal.append(image, closeBtn, titleContainer ,textContainer)
 		return modal;
 	}
 

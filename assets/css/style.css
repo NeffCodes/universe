@@ -17,13 +17,32 @@
   --blue2:#020659;
   --blue3:#011C40;
 }
-*{
-  box-sizing: border-box;
+
+/* Clear fix hack */
+.clearfix:after {
+     content: ".";
+     display: block;
+     clear: both;
+     visibility: hidden;
+     line-height: 0;
+     height: 0;
+}
+
+.clear {
+	clear: both;
 }
 
 /******************
 ===== Global =====
 ******************/
+* { 
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
 html, body, h1, h2, h3, h4, h5, h6, ol, ul, p {
   margin: 0;
   padding: 0;
@@ -59,10 +78,14 @@ p {
   letter-spacing: 0.015rem;
 }
 
-@media screen and (min-width: 760px) {
+@media screen and (min-width: 760px) and (orientation: landscape){
  html{
    font-size: 1.25rem;
  } 
+}
+
+.noscroll {
+  overflow: hidden;
 }
 /******************
 ===== Header =====
@@ -83,7 +106,8 @@ header {
 
 header h1 {
   font-size: 1rem;
-  color:hsl(0, 0%, 80%)
+  color:hsl(0, 0%, 80%);
+  margin-right: 0.5rem;
 }
 
 
@@ -136,7 +160,9 @@ header nav li span {
   flex-wrap: wrap;
   width: 100%;
   min-height: calc(100vh - 4rem);
+  padding-bottom: 4rem;
 }
+
 /*===== Tiles =====*/
 .tile {
   position: relative;
@@ -144,31 +170,30 @@ header nav li span {
   min-height: 20em;
   flex:1 1 25%;
   background-color: var(--grey9);
-      overflow: hidden;
-    cursor: pointer;
+  overflow: hidden;
+  cursor: pointer;
 }
-
-@media screen and (max-width: 1280px) {
-  .tile {
-    height: calc(40vh - 2em);
-    min-height: 20em;
-    flex-basis: 50%;
+  @media screen and (max-width: 1280px) {
+    .tile {
+      height: calc(40vh - 2em);
+      min-height: 20em;
+      flex-basis: 50%;
+    }
   }
-}
-@media screen and (max-width: 980px) {
-  .tile {
-    height: calc(28.57143vh - 1.33333em);
-    min-height: 18em;
-    flex-basis: 50%;
+  @media screen and (max-width: 980px) {
+    .tile {
+      height: calc(28.57143vh - 1.33333em);
+      min-height: 18em;
+      flex-basis: 50%;
+    }
   }
-}
-@media screen and (max-width: 480px) {
-  .tile {
-    height: calc(40vh - 2em);
-    min-height: 18em;
-    flex-basis: 100%;
+  @media screen and (max-width: 480px) {
+    .tile {
+      height: calc(40vh - 2em);
+      min-height: 18em;
+      flex-basis: 100%;
+    }
   }
-}
 
 .tile::after{
   background-image: linear-gradient(to top, rgba(16, 16, 16, 0.8) 8%, rgba(255, 255, 255, 0) 32%);
@@ -240,15 +265,12 @@ header nav li span {
   left: 0;
   width: 100%; 
   height: 100%; 
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
   padding: 5%;
   background-color: rgba(0,0,0,0.84); 
   animation: zoom 0.3s ease-in-out;
   z-index: 20;
+  overflow: scroll;
 }
-
 @keyframes zoom {
     from {
         transform: scale(0);
@@ -259,33 +281,64 @@ header nav li span {
 }
 
 .modal img {
+  max-width: 60%;
   max-height: 80%;
   margin-right: 4%;
+  margin-bottom: 2rem;
   object-fit: contain;
   box-shadow: 0 0 0.5rem var(--grey9);
   border-radius: 2px;
+  float: left;
 }
 
-.modal div {
-  flex-basis: 40%;
-  max-height: 80%;
-  overflow: auto;
+.modal h2 {
+  line-height: 1;
 }
 
+/* laptop  */
+  @media screen and (max-width: 1280px) and (orientation: portrait){
+    .modal {
+      display: flex;
+      flex-direction: column;
+      flex-wrap: nowrap;
+      justify-content: flex-start;
+    }
+    .modal img {
+      float: none;
+      margin: 0 auto 1rem;
+      max-height: 40%;
+    }
+    .title {
+      margin-bottom: 1rem;
+    }
+    .description {
+      flex-basis: 30%;
+      flex-grow:1;
+      overflow: scroll;
+    }
+    .description p {
+      margin: 0;
+    }
 
+  }
 
 .close {
   position: absolute;
   top: 0;
   right: 0;
-  margin: 1rem;
+  margin: 0.5rem 1rem;
   color: var(--grey1);
   font-size: 2rem;
   font-weight: bold;
   cursor: pointer;
   transition: 0.2s ease-in-out;
+  filter: drop-shadow(-1px 1px var(--grey9));
 }
-
+  @media screen and (max-width: 1280px) and (orientation: portrait){
+    .close {
+      margin: 4% 6%;
+    }
+  }
 .close:hover {
     color: var(--grey0);
 }
@@ -297,7 +350,7 @@ header nav li span {
 footer {
   background: hsl(0, 0%, 15%);
   position: fixed;
-  bottom: -12rem;
+  bottom: -50%;
   left: 0;
   width: 100%;
   z-index: 15;
@@ -316,28 +369,3 @@ footer > p {
 footer.show{
   bottom: 4rem;
 }
-/******************
-===== Misfits =====
-******************/
-/* 
-a.icon::before {
-  color: white; 
-  float: right;
-  margin-left: 0.75em;
-}
-.icon::before {
-			-moz-osx-font-smoothing: grayscale;
-			-webkit-font-smoothing: antialiased;
-			display: inline-block;
-			font-style: normal;
-			font-variant: normal;
-			text-rendering: auto;
-			line-height: 1;
-			text-transform: none !important;
-			font-family: "Font Awesome 5 Free"; font-weight: 900; 
-}
-.icon.solid::before {
-  font-weight: 900;
-} */
-
-
