@@ -55,7 +55,6 @@ class GalleryCard {
 	}
 
 	removeModal(){
-		document.querySelector('body').classList.remove('noscroll')
 		const modals = document.querySelectorAll('.modal')
 		modals.forEach(modal => modal.remove());
 	}
@@ -74,6 +73,7 @@ class GalleryCard {
 		closeBtn.classList.add('close');
 		closeBtn.innerHTML = '&times;'
 		closeBtn.onclick = () => {
+			document.querySelector('body').classList.remove('noscroll')
 			this.removeModal();
 		}
 
@@ -139,6 +139,7 @@ class VideoCard extends GalleryCard {
 		closeBtn.classList.add('close');
 		closeBtn.innerHTML = '&times;'
 		closeBtn.onclick = () => {
+			document.querySelector('body').classList.remove('noscroll')
 			modal.remove();
 		}
 
