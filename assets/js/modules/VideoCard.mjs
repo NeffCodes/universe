@@ -3,16 +3,23 @@ import GalleryCard from "./GalleryCard.mjs";
 export default class VideoCard extends GalleryCard {
 	constructor (parentElement, cardData){
 		super(parentElement, cardData)
+		this.isYoutube = this.url.includes('youtube')
 	}
 
 	container() {
+		console.log(this.isYoutube)
+
 		const container = document.createElement('article');
 		container.classList.add('tile');
 		container.onclick = this.onClick.bind(this);
 
 		const thumbnail = document.createElement('img');
-		const youtubeID = this.url.match(/youtube\.com.*(\?v=|\/embed\/)(.{11})/).pop()
-		thumbnail.src = `https://img.youtube.com/vi/${youtubeID}/hqdefault.jpg`
+
+		//if youtube video, get thumbnail from youtube
+		if(this.isYoutube){
+			const youtubeID = this.url.match(/youtube\.com.*(\?v=|\/embed\/)(.{11})/).pop()
+			thumbnail.src = `https://img.youtube.com/vi/${youtubeID}/hqdefault.jpg`
+		}
 		
 
 		const titleEl = document.createElement('h2');
@@ -43,19 +50,34 @@ export default class VideoCard extends GalleryCard {
 		}
 
 		const iframeContainer = document.createElement('div');
-		iframeContainer.classList.add('video-container');
+		this.isYoutube ? 
+			iframeContainer.classList.add('video-container', 'youtube_video') :
+			iframeContainer.classList.add('video-container');
+		
+		if(this.isYoutube){
+			iframeContainer.innerHTML = `
+				<iframe 
+					width="560" 
+					height="315" 
+					src="${this.url}" 
+					title="${this.title}" 
+					frameborder="0" 
+					allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+					allowfullscreen
+				>
+				</iframe>
+			`
+		} else {
+			iframeContainer.innerHTML = `
+				<iframe 
+					src="${this.url}" 
+					title="${this.title}" 
+					frameborder="0" 
+				>
+				</iframe>
+			`
+		}
 
-		iframeContainer.innerHTML = `
-		<iframe 
-			width="560" 
-			height="315" 
-			src="${this.url}" 
-			title="YouTube video player" 
-			frameborder="0" 
-			allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-			allowfullscreen
-		>
-		</iframe>`
 		
 		const titleEl = document.createElement('h2');
 			titleEl.innerText = this.title;
