@@ -343,12 +343,13 @@ header nav li span {
     color: var(--grey0);
 }
 
+
 .video-container {
   position: relative; 
   height: 0; 
   margin-bottom: 1rem;
   padding-top: 30px; 
-  padding-bottom: 56.25%; 
+  padding-bottom: 100%; 
   overflow: hidden;
 }
 .video-container iframe, 
@@ -359,6 +360,10 @@ header nav li span {
   left: 0; 
   width: 100%; 
   height: 100%; 
+}
+
+.youtube_video {
+  padding-bottom: 56.25%;
 }
 
 /******************
