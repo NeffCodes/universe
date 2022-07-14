@@ -3,13 +3,11 @@ import VideoCard from './VideoCard.mjs';
 import { hideLoader } from './loader.mjs';
 
 
-export default function fetchData(offset) {
-  fetch('/.netlify/functions/getPhotos', {
+export const fetchData = async (offset = 0) => {
+  await fetch('/.netlify/functions/getPhotos', {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({ 
-      "offset": offset 
-    })
+    body: offset
   })
     .then(res => res.json()) // parse response as JSON
     .then(data => {

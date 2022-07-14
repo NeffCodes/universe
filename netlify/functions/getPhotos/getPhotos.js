@@ -1,18 +1,21 @@
 const process = require('process')
-
-const axios = require('axios')
-const qs = require('qs')
+const axios = require('axios');
+const { start } = require('repl');
+// const qs = require('qs')
 
 
 //Get date range:
-const todayDate = new Date();
-const endDate = subtractDays(todayDate,12);
-const endRange = getDateString(todayDate)
-const startRange = getDateString(endDate)
+const LIMIT = 12;
 
-function subtractDays(date,days){
-	let result = new Date(date);
-  result.setDate(result.getDate() - days + 1);
+function getStartDate (offset, limit){
+  const today = new Date();
+  today.setDate(today.getDate() - (offset * limit));
+  return today
+}
+
+function getEndDate(startDate, limit){
+	const result = new Date(startDate);
+  result.setDate(result.getDate() - limit + 1);
   return result;
 }
 
@@ -25,18 +28,23 @@ function getDateString(date){
 }
 
 //Handle api data
-const handler = async function (event) {
-  // apply our function to the queryStringParameters and assign it to a variable
-  // const API_PARAMS = qs.stringify(event.queryStringParameters)
-  // console.log('API_PARAMS', API_PARAMS)
-  // Get env var values defined in our Netlify site UI
-
+const handler = async function (event) { 
   // this is secret too, your frontend won't see this
   const { API_KEY } = process.env
+  console.log(event.body)
+  const startDate = getStartDate(event.body, LIMIT);
+  const endDate = getEndDate(startDate, LIMIT);
+
+  const endRange = getDateString(startDate)
+  const startRange = getDateString(endDate)
+
+console.log(startDate)
+console.log(endDate)
+
   const URL = `https://api.nasa.gov/planetary/apod?api_key=${API_KEY}&start_date=${startRange}&end_date=${endRange}`
 
   console.log('Constructed URL is ...', URL)
-  console.log('Body Params:', event.body)
+  // console.log('Body Params:', event.body)
 
   try {
     const { data } = await axios.get(URL)
