@@ -36,6 +36,7 @@ const handler = async function (event) {
   const URL = `https://api.nasa.gov/planetary/apod?api_key=${API_KEY}&start_date=${startRange}&end_date=${endRange}`
 
   console.log('Constructed URL is ...', URL)
+  console.log('Body Params:', event.body)
 
   try {
     const { data } = await axios.get(URL)
