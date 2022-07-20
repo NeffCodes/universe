@@ -9,6 +9,19 @@ export const fetchData = async (offset = 0) => {
   })
     .then(res => res.json()) // parse response as JSON
     .then(data => {
+      // randomly change loader text
+      const loaderText = document.querySelector('.loader>p');
+      const textOptions = [
+        'Looking for more views',
+        'Searching for extraterrestrial life',
+        'Making sure the cap is off of the lens',
+        'Adjusting scope calibration',
+        'Relocating telescope',
+        'Waiting for clouds to clear',
+        'Cleaning spot off of the lens',
+      ]
+      loaderText.innerText = `${textOptions[Math.floor(Math.random()*textOptions.length)]}...`
+
       //add data in reverse order
       data = data.reverse()
       data.forEach( (cardData) => {
