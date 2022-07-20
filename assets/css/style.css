@@ -165,8 +165,6 @@ main {
   display: flex;
   flex-wrap: wrap;
   width: 100%;
-  /* min-height: calc(100vh - 4rem); */
-  /* padding-bottom: 4rem; */
 }
 
 /*===== Tiles =====*/
@@ -408,6 +406,7 @@ footer.show{
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
 }
   @media screen and (max-width: 1280px) {
     .loader {
@@ -437,7 +436,7 @@ footer.show{
   border: 5px solid var(--grey4);
   border-top: 5px solid var(--orange);
   border-radius: 100%;
-  margin: 0 auto;
+  margin: 0;
   visibility: visible;
   display: block;
   animation: spin 1s infinite linear;

@@ -7,13 +7,14 @@ export default class VideoCard extends GalleryCard {
 	}
 
 	container() {
-		console.log(this.isYoutube)
-
 		const container = document.createElement('article');
 		container.classList.add('tile');
 		container.onclick = this.onClick.bind(this);
 
 		const thumbnail = document.createElement('img');
+
+		//set default to telescope svg
+		thumbnail.src = 'assets/images/telescope.svg';
 
 		//if youtube video, get thumbnail from youtube
 		if(this.isYoutube){
