@@ -155,12 +155,18 @@ header nav li span {
 /******************
 ===== Gallery =====
 ******************/
+
+main {
+  min-height: calc(100vh - 4rem);
+  padding-bottom: 4rem;
+}
+
 .gallery {
   display: flex;
   flex-wrap: wrap;
   width: 100%;
-  min-height: calc(100vh - 4rem);
-  padding-bottom: 4rem;
+  /* min-height: calc(100vh - 4rem); */
+  /* padding-bottom: 4rem; */
 }
 
 /*===== Tiles =====*/
@@ -395,14 +401,36 @@ footer.show{
 /******************
 ===== Loading =====
 ******************/
-.temp {
+.loader {
   width: 100%;
-  height: calc(100vh - 12rem);
+  height: calc(40vh - 2em);
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
+  @media screen and (max-width: 1280px) {
+    .loader {
+      height: calc(40vh - 2em);
+      min-height: 20em;
+      flex-basis: 50%;
+    }
+  }
+  @media screen and (max-width: 980px) {
+    .loader {
+      height: calc(28.57143vh - 1.33333em);
+      min-height: 18em;
+      flex-basis: 50%;
+    }
+  }
+  @media screen and (max-width: 480px) {
+    .loader {
+      height: calc(40vh - 2em);
+      min-height: 18em;
+      flex-basis: 100%;
+    }
+  }
+
 #loading {
   width: 2rem;
   height: 2rem;

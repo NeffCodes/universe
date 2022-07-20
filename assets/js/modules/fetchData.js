@@ -1,7 +1,5 @@
 import GalleryCard from './GalleryCard.mjs';
 import VideoCard from './VideoCard.mjs';
-import { hideLoader } from './loader.mjs';
-
 
 export const fetchData = async (offset = 0) => {
   await fetch('/.netlify/functions/getPhotos', {
@@ -11,9 +9,8 @@ export const fetchData = async (offset = 0) => {
   })
     .then(res => res.json()) // parse response as JSON
     .then(data => {
-      hideLoader();
+      //add data in reverse order
       data = data.reverse()
-      // console.log(data)
       data.forEach( (cardData) => {
         const gallery = document.querySelector('.gallery');
         let card;
@@ -21,7 +18,6 @@ export const fetchData = async (offset = 0) => {
         cardData.media_type === 'video' ?
         card = new VideoCard(gallery, cardData ) :
         card = new GalleryCard(gallery, cardData ) ;
-
 
         gallery.appendChild(card.container())
       })

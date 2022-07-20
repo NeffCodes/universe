@@ -31,19 +31,15 @@ function getDateString(date){
 const handler = async function (event) { 
   // this is secret too, your frontend won't see this
   const { API_KEY } = process.env
-  console.log(event.body)
   const startDate = getStartDate(event.body, LIMIT);
   const endDate = getEndDate(startDate, LIMIT);
 
   const endRange = getDateString(startDate)
   const startRange = getDateString(endDate)
 
-console.log(startDate)
-console.log(endDate)
-
   const URL = `https://api.nasa.gov/planetary/apod?api_key=${API_KEY}&start_date=${startRange}&end_date=${endRange}`
 
-  console.log('Constructed URL is ...', URL)
+  // console.log('Constructed URL is ...', URL)
   // console.log('Body Params:', event.body)
 
   try {
